@@ -35,6 +35,12 @@ def get_size(path: Path)->str:
     logger.info(f"The size of the {path} is {size}")
     return size
 
+@ensure_annotations
+def save_json(path:Path,data:dict):
+    with open(path,'w') as j:
+        json.dump(data,j,indent=4)  
+        logger.info(f"Json file {path} created") 
+
 
     
     

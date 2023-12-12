@@ -1,13 +1,14 @@
 import os
+from box.exceptions import BoxValueError
+import yaml
+from cnnClassifier import logger
 import json
 import joblib
-from typing import Any
-from pathlib import Path
-from cnnClassifier import logger
 from ensure import ensure_annotations
 from box import ConfigBox
-import yaml
-from typing import List
+from pathlib import Path
+from typing import Any
+import base64
 
 @ensure_annotations
 def read_yaml(path: Path)->ConfigBox:
@@ -40,6 +41,17 @@ def save_json(path:Path,data:dict):
     with open(path,'w') as j:
         json.dump(data,j,indent=4)  
         logger.info(f"Json file {path} created") 
+
+def decodeImage(imgstring, fileName):
+    imgdata = base64.b64decode(imgstring)
+    with open(fileName, 'wb') as f:
+        f.write(imgdata)
+        f.close()
+
+
+def encodeImageIntoBase64(croppedImagePath):
+    with open(croppedImagePath, "rb") as f:
+        return base64.b64encode(f.read())
 
 
     
